@@ -11,7 +11,7 @@
     "test": "jest",
     "tsc-check": "tsc --noEmit --pretty",
     "format": "prettier --write .",
-    "find-circulares": "skott --displayMode=raw --showCircularDependencies"
+    "find-circulars": "skott --displayMode=raw --showCircularDependencies"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
