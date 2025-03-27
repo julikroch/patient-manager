@@ -3,9 +3,10 @@
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { Toaster } from 'sonner';
-import { PatientCard, PatientForm } from '@/components';
 import type { Patient } from '@/types/patient';
 
+import { PatientCard } from './PatientCard';
+import { PatientForm } from './PatientForm';
 import { Button } from './ui';
 
 interface ClientPageProps {
