@@ -1,0 +1,3 @@
+yarn run find-circulares
+yarn run tsc-check
+yarn run test
