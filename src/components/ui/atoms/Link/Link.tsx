@@ -3,16 +3,16 @@ import type { ReactNode } from 'react';
 
 interface LinkProps {
   href: string;
-  target?: string;
+  navigateToNewTab?: boolean;
   children: ReactNode;
 }
 
-export const Link = ({ href, target, children }: LinkProps) => (
+export const Link = ({ href, navigateToNewTab, children }: LinkProps) => (
   <NextLink href={href} legacyBehavior>
     <a
-      target={target}
+      target={navigateToNewTab ? '_blank' : undefined}
       className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
-      rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+      rel={navigateToNewTab ? 'noopener noreferrer' : undefined}
     >
       {children}
     </a>

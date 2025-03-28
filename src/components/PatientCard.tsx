@@ -54,7 +54,7 @@ export const PatientCard = ({ patient, isExpanded, onExpand, onEdit }: PatientCa
             <div className="mt-4 space-y-3">
               <p className="text-gray-600">{patient.description}</p>
               <div className="border-t pt-2">
-                <Link href={patient.website} target="_blank">
+                <Link href={patient.website} navigateToNewTab>
                   Visit Website
                 </Link>
               </div>

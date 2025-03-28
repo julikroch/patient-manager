@@ -15,7 +15,7 @@ describe('Link', () => {
 
   it('applies target attribute when provided', () => {
     render(
-      <Link href="/test" target="_blank">
+      <Link href="/test" navigateToNewTab>
         Click me
       </Link>,
     );
@@ -27,7 +27,7 @@ describe('Link', () => {
 
   it('adds rel attribute for external links', () => {
     render(
-      <Link href="/test" target="_blank">
+      <Link href="/test" navigateToNewTab>
         Click me
       </Link>,
     );
