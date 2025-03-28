@@ -13,7 +13,7 @@ interface ClientPageProps {
   initialPatients: Patient[];
 }
 
-export function Patients({ initialPatients }: ClientPageProps) {
+export const Patients = ({ initialPatients }: ClientPageProps) => {
   const {
     patients,
     selectedPatient,

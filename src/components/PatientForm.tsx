@@ -14,7 +14,7 @@ interface PatientFormProps {
   onClose: () => void;
 }
 
-export function PatientForm({ patient, onSubmit, onClose }: PatientFormProps): JSX.Element {
+export const PatientForm = ({ patient, onSubmit, onClose }: PatientFormProps): JSX.Element => {
   const form = useForm<PatientFormData>({
     defaultValues: patient
       ? {
@@ -91,13 +91,17 @@ export function PatientForm({ patient, onSubmit, onClose }: PatientFormProps): J
             type="url"
             isRequired
           />
-
         </Form>
         <div className="flex justify-end space-x-4 mt-8">
           <Button.Primary onClick={onClose} text="Cancel" size="sm" type="button" />
-          <Button.Primary onClick={form.handleSubmit(onFormSubmit)} text={patient ? 'Update' : 'Add'} size="sm" type="submit" />
+          <Button.Primary
+            onClick={form.handleSubmit(onFormSubmit)}
+            text={patient ? 'Update' : 'Add'}
+            size="sm"
+            type="submit"
+          />
         </div>
       </motion.div>
     </motion.div>
   );
-}
+};

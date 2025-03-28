@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface AvatarProps {
   src?: string;
@@ -12,6 +12,11 @@ interface AvatarProps {
 
 export const Avatar = ({ src, alt, size = 64, className = '' }: AvatarProps) => {
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setError(false);
+  }, [src]);
+
   const initials = alt
     .split(' ')
     .map(word => word[0])
@@ -31,7 +36,10 @@ export const Avatar = ({ src, alt, size = 64, className = '' }: AvatarProps) => 
   }
 
   return (
-    <div className={`relative overflow-hidden rounded-full ${className}`} style={{ width: size, height: size }}>
+    <div
+      className={`relative overflow-hidden rounded-full ${className}`}
+      style={{ width: size, height: size }}
+    >
       <Image
         src={src}
         alt={alt}

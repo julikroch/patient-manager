@@ -27,7 +27,7 @@ interface ImageUploadProps<T extends FieldValues = FieldValues>
   isRequired?: boolean;
 }
 
-export function ImageUpload<T extends FieldValues>({
+export const ImageUpload = <T extends FieldValues>({
   label,
   error,
   register,
@@ -37,7 +37,7 @@ export function ImageUpload<T extends FieldValues>({
   defaultImage,
   isRequired,
   ...props
-}: ImageUploadProps<T>): JSX.Element {
+}: ImageUploadProps<T>): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>(defaultImage || DEFAULT_AVATAR);
 
@@ -91,20 +91,20 @@ export function ImageUpload<T extends FieldValues>({
         </label>
         {previewUrl && (
           <div className="mt-2">
-              <Image
-                src={previewUrl}
-                alt="Preview"
-                width={80}
-                height={80}
+            <Image
+              src={previewUrl}
+              alt="Preview"
+              width={80}
+              height={80}
               className="object-cover rounded-full"
-                onError={() => setPreviewUrl(DEFAULT_AVATAR)}
-              />
+              onError={() => setPreviewUrl(DEFAULT_AVATAR)}
+            />
           </div>
         )}
       </div>
       {error?.message && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
     </div>
   );
-}
+};
 
 export default ImageUpload;
