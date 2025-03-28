@@ -1,3 +1,4 @@
-export * from './Avatar/Avatar';
-export * from './Button/Button';
-export * from './Link/Link'
+export * from './Avatar/';
+export * from './BackToTop/';
+export * from './Button/';
+export * from './Link/';

@@ -2,38 +2,39 @@
 
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { type PatientFormData, patientFormSchema } from '@/schemas/patient.schema';
 import type { Patient } from '@/types/patient';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button, Form } from './ui';
 
 interface PatientFormProps {
   patient: Patient | null;
-  onSubmit: (data: Partial<Patient>) => void;
+  onSubmit: (data: PatientFormData) => void;
   onClose: () => void;
 }
 
-type PatientFormData = {
-  name: string;
-  description: string;
-  website: string;
-  avatar: string;
-};
-
 export function PatientForm({ patient, onSubmit, onClose }: PatientFormProps): JSX.Element {
   const form = useForm<PatientFormData>({
-    defaultValues: patient || {
-      name: '',
-      description: '',
-      website: '',
-      avatar: '',
-    },
+    defaultValues: patient
+      ? {
+          name: patient.name,
+          description: patient.description || '',
+          website: patient.website,
+          avatar: patient.avatar,
+        }
+      : {
+          name: '',
+          description: '',
+          website: '',
+          avatar: '',
+        },
+    resolver: zodResolver(patientFormSchema),
     mode: 'onSubmit',
   });
 
-  const onFormSubmit = (data: Partial<Patient>): void => {
+  const onFormSubmit = (data: PatientFormData): void => {
     onSubmit(data);
-    toast.success(`Patient successfully ${patient ? 'updated' : 'added'}`);
     onClose();
   };
 
@@ -52,13 +53,16 @@ export function PatientForm({ patient, onSubmit, onClose }: PatientFormProps): J
         <h2 className="text-2xl font-semibold mb-4 text-blue-600">
           {patient ? 'Edit Patient' : 'Add New Patient'}
         </h2>
-        <Form form={form} onSubmit={onFormSubmit} className="space-y-4">
+        <Form form={form} onSubmit={onFormSubmit} className="space-y-4" noValidate>
           <Form.ImageUpload
             label="Avatar"
             register={form.register}
+            setValue={form.setValue}
             name="avatar"
             error={form.formState.errors.avatar}
             registerOptions={{ required: 'Avatar is required' }}
+            defaultImage={patient?.avatar}
+            isRequired
           />
 
           <Form.Input
@@ -67,6 +71,7 @@ export function PatientForm({ patient, onSubmit, onClose }: PatientFormProps): J
             name="name"
             error={form.formState.errors.name}
             registerOptions={{ required: 'Name is required' }}
+            isRequired
           />
 
           <Form.TextArea
@@ -84,13 +89,14 @@ export function PatientForm({ patient, onSubmit, onClose }: PatientFormProps): J
             name="website"
             error={form.formState.errors.website}
             type="url"
+            isRequired
           />
 
-          <div className="flex justify-end space-x-4 mt-8">
-            <Button.Primary onClick={onClose} text="Cancel" size="sm" />
-            <Button.Primary type="submit" text={patient ? 'Update' : 'Add'} size="sm" />
-          </div>
         </Form>
+        <div className="flex justify-end space-x-4 mt-8">
+          <Button.Primary onClick={onClose} text="Cancel" size="sm" type="button" />
+          <Button.Primary onClick={form.handleSubmit(onFormSubmit)} text={patient ? 'Update' : 'Add'} size="sm" type="submit" />
+        </div>
       </motion.div>
     </motion.div>
   );

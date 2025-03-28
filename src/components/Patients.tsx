@@ -1,43 +1,29 @@
 'use client';
 
 import { AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
 import { Toaster } from 'sonner';
+import { usePatients } from '@/hooks/usePatients';
 import type { Patient } from '@/types/patient';
 
 import { PatientCard } from './PatientCard';
 import { PatientForm } from './PatientForm';
-import { Button } from './ui';
+import { BackToTop, Button } from './ui';
 
 interface ClientPageProps {
   initialPatients: Patient[];
 }
 
 export function Patients({ initialPatients }: ClientPageProps) {
-  const [patients, setPatients] = useState<Patient[]>(initialPatients);
-  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-  const [showForm, setShowForm] = useState(false);
-  const [expandedPatientId, setExpandedPatientId] = useState<string | null>(null);
-
-  const handleAddEdit = (data: Partial<Patient>) => {
-    if (selectedPatient) {
-      // Edit existing patient
-      setPatients(prev => prev.map(p => (p.id === selectedPatient.id ? { ...p, ...data } : p)));
-    } else {
-      // Add new patient
-      const newPatient: Patient = {
-        id: String(Date.now()),
-        createdAt: new Date().toISOString(),
-        avatar:
-          'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1234.jpg',
-        ...data,
-      } as Patient;
-
-      setPatients(prev => [...prev, newPatient]);
-    }
-    setSelectedPatient(null);
-    setShowForm(false);
-  };
+  const {
+    patients,
+    selectedPatient,
+    showForm,
+    expandedPatientId,
+    setSelectedPatient,
+    setShowForm,
+    setExpandedPatientId,
+    handleAddEdit,
+  } = usePatients(initialPatients);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -55,7 +41,7 @@ export function Patients({ initialPatients }: ClientPageProps) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence>
-              {patients.map(patient => (
+              {patients.map((patient: Patient) => (
                 <PatientCard
                   key={patient.id}
                   patient={patient}
@@ -86,6 +72,8 @@ export function Patients({ initialPatients }: ClientPageProps) {
           />
         )}
       </AnimatePresence>
+
+      <BackToTop />
     </div>
   );
 }
